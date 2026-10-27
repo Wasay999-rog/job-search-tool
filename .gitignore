@@ -1,0 +1,9 @@
+.venv/
+.env
+*.db
+*.db-journal
+data/private/
+__pycache__/
+.pytest_cache/
+.DS_Store
+backups/
