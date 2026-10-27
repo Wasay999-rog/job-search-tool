@@ -165,7 +165,7 @@ with tab_jobs:
         (cutoff, min_score))
     if profile != "All":
         df = df[df["profile"] == profile]
-        if max_age:
+    if max_age:
         df = df[df["age_days"].isna() | (df["age_days"] <= max_age)]
     if only_new:
         df = df[df["is_new"] == "NEW"]
