@@ -1,0 +1,46 @@
+name: Daily refresh
+
+on:
+  schedule:
+    - cron: "0 11 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install packages
+        run: pip install -r requirements.txt
+
+      - name: Restore memory file
+        run: cp data/state.db data/jobs.db
+
+      - name: Collect jobs
+        run: python -m app.collect_all
+
+      - name: Score jobs
+        run: python -m app.scoring
+
+      - name: Build phone and memory databases
+        run: |
+          cp data/jobs.db data/jobs_cloud.db
+          sqlite3 data/jobs_cloud.db "DELETE FROM jobs WHERE id NOT IN (SELECT job_id FROM match_results) AND id NOT IN (SELECT job_id FROM applications); UPDATE jobs SET description = substr(description, 1, 6000); VACUUM;"
+          cp data/jobs.db data/state.db
+          sqlite3 data/state.db "UPDATE jobs SET description = NULL; DELETE FROM match_results; DELETE FROM collection_runs; VACUUM;"
+
+      - name: Save results
+        run: |
+          git config user.name "job-search-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -f data/jobs_cloud.db data/state.db
+          git diff --cached --quiet || (git commit -m "Daily refresh" && git push)
