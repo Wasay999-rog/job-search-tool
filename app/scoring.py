@@ -88,7 +88,7 @@ LOCATION_OK = [re.compile(p, re.I) for p in (
     r",\s*co\b", r"new york", r"\bnyc\b", r",\s*ny\b", r"\byoungstown\b", r"\bwarren, oh",
     r"\bakron\b", r"\bcleveland\b", r"\bcanton\b", r"\bpittsburgh\b", r"\bboardman\b")]
 NON_US = re.compile(
-    r"\b(canada|united kingdom|uk|london|india|bengaluru|bangalore|hyderabad|emea|europe|"
+    r"\b(canada|united kingdom|uk|london|india|bengaluru|bangalore|hyderabad|pune|noida|gurgaon|gurugram|mumbai|chennai|delhi|kolkata|emea|europe|"
     r"germany|berlin|ireland|dublin|singapore|australia|sydney|brazil|são paulo|sao paulo|"
     r"(?<!new )mexico|japan|tokyo|toronto|vancouver|amsterdam|netherlands|france|paris|"
     r"poland|warsaw|krakow|spain|madrid|barcelona|lisbon|milan|munich|zurich|stockholm|copenhagen|oslo|helsinki|prague|bucharest|budapest|dubai|seoul|shanghai|beijing|hong kong|manila|jakarta|bogota|buenos aires|santiago|portugal|israel|tel aviv|philippines|argentina|colombia|chile|"
